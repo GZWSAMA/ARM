@@ -102,7 +102,7 @@ def run():
     # 检查是否有棋子被下，如果没有则认为本次操作没有改变棋盘状态
     for i in range(len(color_codes)):
         if color_codes[i] != 0:
-            ch_flag = 0
+            ch_flag = ch_flag - 1
     start_game(ch_flag)
 
     board_pre = create_doard()
