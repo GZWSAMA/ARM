@@ -141,10 +141,10 @@ def run():
             row, col = computer_move(board)
             board[row][col] = Piece.X
             print("computer move:", row, col)
+            #更新board_pre状态
+            board_pre = copy.deepcopy(board)
 
         print(f"board:{board}")
-        #更新board_pre状态
-        board_pre = copy.deepcopy(board)
 
         # 等待用户输入，确认本次下棋操作完成
         flag = int(input("输入1表示已完成本次下棋: "))

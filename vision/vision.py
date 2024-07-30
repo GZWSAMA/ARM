@@ -229,7 +229,7 @@ class Vision:
     def determine_color(self, average_gray):
         # 设置阈值
         white_threshold = self.gray_mean + 8  # 白色的灰度阈值
-        black_threshold = self.gray_mean - 50   # 黑色的灰度阈值
+        black_threshold = self.gray_mean - 30   # 黑色的灰度阈值
 
         # 判断颜色
         if average_gray >= white_threshold:
