@@ -158,5 +158,5 @@ def run():
 
 if __name__ == '__main__':
     # 打开默认摄像头，通常索引为0
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(0)
     run()
