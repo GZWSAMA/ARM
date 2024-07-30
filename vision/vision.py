@@ -135,7 +135,7 @@ class Vision:
         :return: 排序和分组后的中心点列表，与输入格式相同
         """
         # 按x坐标排序
-        sorted_centers = filtered_centers[np.argsort(filtered_centers[:, 0])]
+        sorted_centers = filtered_centers[np.argsort(filtered_centers[:, 1])]
         
         # 计算每组的大小
         total_points = len(sorted_centers)
@@ -145,7 +145,7 @@ class Vision:
         groups = [sorted_centers[i:i + group_size] for i in range(0, total_points, group_size)]
         
         # 对每组按y坐标从大到小排序
-        sorted_groups = [group[np.argsort(group[:, 1])[::-1]] for group in groups]
+        sorted_groups = [group[np.argsort(group[:, 0])[::1]] for group in groups]
         
         final_sorted_centers = []
         for group in sorted_groups:
