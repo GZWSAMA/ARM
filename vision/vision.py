@@ -170,7 +170,7 @@ class Vision:
         # 应用边缘检测
         edges = cv2.Canny(gauss, 20, 50, apertureSize=3)
         cv2.imshow("edges in rec", edges)
-        cv2.waitKey(0)
+        cv2.waitKey(10)
 
         # 查找轮廓
         contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)

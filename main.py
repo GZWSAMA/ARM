@@ -166,6 +166,7 @@ def run():
             parts = line.split()
             command = parts[0]
             data =parts[1:]
+            print(f"Received command: {command}")
             
             # 根据命令调用相应的函数
             if command == "C":
