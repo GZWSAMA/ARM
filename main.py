@@ -198,7 +198,6 @@ def run():
                     send_list_over_serial(command, ['T', data1, data2])
             else:
                 print(f"Invalid command{command}")
-            flag_a = 0
 
 
 if __name__ == '__main__':
