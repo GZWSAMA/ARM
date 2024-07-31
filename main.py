@@ -192,13 +192,16 @@ def run():
                 send_flag, data1, data2 = strategy_computer()
                 if send_flag == Strategy_compute.Change_board:
                     send_list_over_serial(command, ['F', data1, data2])
+                    print(f"serial sent: {command}, F, {data1}, {data2}")
                 elif send_flag == Strategy_compute.Game_Over:
                     vs.ch_flag = 1
                     send_list_over_serial(command, [data1, data2])
+                    print(f"serial sent: {command}, {data1}, {data2}")
                 elif send_flag == Strategy_compute.Move:
                     send_list_over_serial(command, ['T', data1, data2])
+                    print(f"serial sent: {command}, T, {data1}, {data2}")
             else:
-                print(f"Invalid command{command}")
+                print(f"Invalid command: {command}")
 
 
 if __name__ == '__main__':
