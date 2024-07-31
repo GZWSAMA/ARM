@@ -1,36 +1,30 @@
 import cv2
+import numpy as np
 
-# 创建VideoCapture对象
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+def compute_axis(centers):
+    box = np.array([
+        [99, 226], [98, 301], [98, 377], [247, 375]
+    ], dtype="float32")
+    # 重新计算目标点
+    dst_pts = np.array([
+        [161,-31],
+        [161,28],
+        [224,-29],
+        [224,30]
+    ], dtype="float32")
 
-# 调整摄像头参数
-# cap.set(cv2.CAP_PROP_BRIGHTNESS, 1.5)  # 降低亮度
-# cap.set(cv2.CAP_PROP_EXPOSURE, -5)     # 降低曝光
-# cap.set(cv2.CAP_PROP_CONTRAST, 0.5)    # 增加对比度
-cap.set(cv2.CAP_PROP_AUTO_WB, 1)       # 关闭自动白平衡
+    # 计算透视变换矩阵
+    M_trans = cv2.getPerspectiveTransform(box, dst_pts)
 
-# # 手动设置白平衡
-# # 注意：并非所有摄像头都支持直接设置白平衡
-# try:
-#     cap.set(cv2.CAP_PROP_WHITE_BALANCE_BLUE_U, 4000)
-#     cap.set(cv2.CAP_PROP_WHITE_BALANCE_RED_V, 4000)
-# except Exception as e:
-#     print("Warning: Could not set white balance. Error:", str(e))
-
-while True:
-    # 读取摄像头的一帧图像
-    ret, frame = cap.read()
-
-    if not ret:
-        break
-
-    # 显示图像
-    cv2.imshow('frame', frame)
-
-    # 按q键退出
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# 释放摄像头资源
-cap.release()
-cv2.destroyAllWindows()
+    trans_centers = []
+    for center in centers:
+        # 已知变换后的点坐标
+        transformed_point = np.array([center[0], center[1]])
+        # 将点坐标转换为齐次坐标
+        homogeneous_point = np.array([[transformed_point[0]], [transformed_point[1]], [1]])
+        # 执行逆透视变换
+        original_point_homogeneous = Minv @ homogeneous_point
+        w = original_point_homogeneous[2]
+        trans_point = (int(original_point_homogeneous[0] / w), int(original_point_homogeneous[1] / w))
+        trans_centers.append(trans_point)
+    return trans_centers

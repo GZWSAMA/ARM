@@ -21,8 +21,6 @@ vs = VS(
     min_distance=50
 )
 
-
-
 def capture_image():
     # 检查摄像头是否成功打开
     if not cap.isOpened():
@@ -38,7 +36,18 @@ def capture_image():
         print("无法获取帧")
         exit()
 
-    return frame
+    height, width, _ = frame.shape
+    
+    # 计算裁剪的起始和结束位置
+    left = int(width * 0.25)
+    right = int(width * 0.8)
+    top = 0
+    bottom = height
+    
+    # 裁剪图片
+    cropped_img = frame[top:bottom, left:right]
+
+    return cropped_img
 
 def compare_board(board_pre, board):
     """
@@ -80,9 +89,12 @@ def run():
     cv2.imshow("warped", warped)
     cv2.waitKey(10)
     original_centers = vs.find_rectangle_centers(warped)
+    print(f"original_centers: {original_centers}")
+    trans_centers = vs.compute_axis(original_centers)
+    print(f"trans_centers: {trans_centers}")
     gray_mean = vs.get_color(image, original_centers)
     vs.gray_mean = gray_mean
-    print(f"gray_mean:{gray_mean}")
+    # print(f"gray_mean:{gray_mean}")
     color_codes = vs.get_determine_color(image, original_centers)
     # 在图像上标注每个中心点的颜色和编号
     for i, original_center in enumerate(original_centers):
