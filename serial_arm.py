@@ -16,7 +16,7 @@ vs = VS(
                           # 使用高斯模糊或其他类型的模糊来减少图像噪声。数值越大，模糊效果越强。
                           #可以去除噪声
 
-    edge_para=150,        # 第三个参数，边缘参数。这可能用于控制边缘检测的敏感度或阈值。在Canny边缘检测等算法中，
+    edge_para=120,        # 第三个参数，边缘参数。这可能用于控制边缘检测的敏感度或阈值。在Canny边缘检测等算法中，
                           # 较高的值意味着只有非常明显的边缘才会被检测到，较低的值则会检测到更多的边缘细节。
                           #越大中间的矩形越容易被检测到，但过大会导致边缘细节消失
     
@@ -158,7 +158,7 @@ def run():
 
     warped = vs.warp_image(image)
     cv2.imshow("warped", warped)
-    cv2.waitKey(10)
+    cv2.waitKey(0)
     vs.original_centers = vs.find_rectangle_centers(warped)
     print(f"original_centers: {vs.original_centers}")
     vs.trans_centers = vs.compute_axis(vs.original_centers)

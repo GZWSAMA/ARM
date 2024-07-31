@@ -161,12 +161,16 @@ class Vision:
     def find_rectangle_centers(self, image):
         # 读取图像
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        cv2.imshow("gray in rec", gray)
+        cv2.waitKey(10)
 
         # 应用高斯模糊
-        # gauss = cv2.GaussianBlur(gray, (3, 3), 0)
+        gauss = cv2.GaussianBlur(gray, (3, 3), 0)
 
         # 应用边缘检测
-        edges = cv2.Canny(gray, 50, 150, apertureSize=3)
+        edges = cv2.Canny(gauss, 20, 50, apertureSize=3)
+        cv2.imshow("edges in rec", edges)
+        cv2.waitKey(0)
 
         # 查找轮廓
         contours, _ = cv2.findContours(edges, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
@@ -196,7 +200,7 @@ class Vision:
         filtered_centers = self.filter_close_centers(centers, self.min_distance)
         filtered_centers = self.sort_and_group_points(np.array(filtered_centers))
         if self.mode == 'test':
-            print(f"len of filtered_centers{len(filtered_centers)}")
+            print(f"len of filtered_centers: {len(filtered_centers)}")
             # 绘制过滤后的矩形框和中点
             for center_x, center_y in filtered_centers:
                 # 找到对应的矩形轮廓
@@ -216,7 +220,7 @@ class Vision:
 
         # 计算逆变换矩阵
         Minv = np.linalg.inv(self.M)
-        print(f"Minv:{Minv}")
+        # print(f"Minv:{Minv}")
 
         original_centers = []
         for center_point in filtered_centers:  
@@ -235,7 +239,7 @@ class Vision:
 
     def determine_color(self, average_gray):
         # 设置阈值
-        white_threshold = self.gray_mean + 15  # 白色的灰度阈值
+        white_threshold = self.gray_mean + 35  # 白色的灰度阈值
         black_threshold = self.gray_mean - 15   # 黑色的灰度阈值
 
         # 判断颜色
@@ -249,6 +253,7 @@ class Vision:
     def get_determine_color(self, image, original_centers):
         color_codes = []
         gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        print("\n")
         # print(f"gray_image:{gray_image}")
         for i, original_center in enumerate(original_centers):
             # 解包中心点坐标

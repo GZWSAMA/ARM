@@ -14,7 +14,7 @@ vs = VS(
                           # 使用高斯模糊或其他类型的模糊来减少图像噪声。数值越大，模糊效果越强。
                           #可以去除噪声
 
-    edge_para=150,        # 第三个参数，边缘参数。这可能用于控制边缘检测的敏感度或阈值。在Canny边缘检测等算法中，
+    edge_para=120,        # 第三个参数，边缘参数。这可能用于控制边缘检测的敏感度或阈值。在Canny边缘检测等算法中，
                           # 较高的值意味着只有非常明显的边缘才会被检测到，较低的值则会检测到更多的边缘细节。
                           #越大中间的矩形越容易被检测到，但过大会导致边缘细节消失
     
@@ -75,25 +75,6 @@ def compare_board(board_pre, board):
     else:
         return None
 
-def send_list_over_serial(command, data_list):
-    try:
-        if ser.isOpen():
-            # 将列表转换为字符串，使用逗号作为分隔符
-            # 使用str()函数确保所有元素都被转换为字符串
-            data_str = ','.join(map(str, data_list))
-            
-            # 将字符串编码为字节串
-            data_bytes = (command + data_str + '\r\n').encode('utf-8')
-            
-            # 发送数据
-            ser.write(data_bytes)
-            
-            print("数据发送成功")
-    
-    except Exception as e:
-        print(f"发生错误: {e}")
-
-
 # 主函数，负责游戏的运行流程控制
 def run():
     # 初始化棋盘状态，直到检测到棋盘的WH尺寸，进入正式的游戏循环
@@ -113,7 +94,7 @@ def run():
     print(f"trans_centers: {vs.trans_centers}")
     gray_mean = vs.get_color(image, original_centers)
     vs.gray_mean = gray_mean
-    # print(f"gray_mean:{gray_mean}")
+    print(f"gray_mean:{gray_mean}")
     color_codes = vs.get_determine_color(image, original_centers)
     # 在图像上标注每个中心点的颜色和编号
     for i, original_center in enumerate(original_centers):
