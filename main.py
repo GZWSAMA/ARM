@@ -1,7 +1,6 @@
 import cv2
 import copy
 import serial
-import keyboard
 import numpy as np
 from vision.vision import Vision as VS
 from strategy.win_strategy import *
