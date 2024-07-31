@@ -9,6 +9,10 @@ class Vision:
         self.min_distance = min_distance
         self.radius = radius
         self.gray_mean = gray_mean
+        self.board_pre = None
+        self.trans_centers = []
+        self.original_centers = []
+        self.ch_flag = 1
         self.WH = None
         self.M = None
     
@@ -158,6 +162,9 @@ class Vision:
         # 读取图像
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
+        # 应用高斯模糊
+        # gauss = cv2.GaussianBlur(gray, (3, 3), 0)
+
         # 应用边缘检测
         edges = cv2.Canny(gray, 50, 150, apertureSize=3)
 
@@ -228,8 +235,8 @@ class Vision:
 
     def determine_color(self, average_gray):
         # 设置阈值
-        white_threshold = self.gray_mean + 8  # 白色的灰度阈值
-        black_threshold = self.gray_mean - 30   # 黑色的灰度阈值
+        white_threshold = self.gray_mean + 15  # 白色的灰度阈值
+        black_threshold = self.gray_mean - 15   # 黑色的灰度阈值
 
         # 判断颜色
         if average_gray >= white_threshold:
@@ -253,7 +260,7 @@ class Vision:
             average_gray = np.mean(roi)
             
             # 判断颜色并输出
-            # print(f"{i}average_gray:{average_gray}")
+            print(f"{i}average_gray:{average_gray}")
             color_code = self.determine_color(average_gray)
             color_codes.append(color_code)
 
@@ -278,14 +285,14 @@ class Vision:
 
     def compute_axis(self, centers):
         box = np.array([
-            [101, 226], [248, 227], [98, 376], [248, 377]
+            [87, 228], [233, 226], [87, 378], [237, 374]
         ], dtype="float32")
         # 重新计算目标点
         dst_pts = np.array([
-            [161,-33],
-            [160.5,27.3],
-            [224,-30],
-            [224,30]
+            [156,-30],
+            [154,27],
+            [219,-28],
+            [218,35]
         ], dtype="float32")
 
         # 计算透视变换矩阵

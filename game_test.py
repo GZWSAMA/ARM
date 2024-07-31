@@ -75,6 +75,25 @@ def compare_board(board_pre, board):
     else:
         return None
 
+def send_list_over_serial(command, data_list):
+    try:
+        if ser.isOpen():
+            # 将列表转换为字符串，使用逗号作为分隔符
+            # 使用str()函数确保所有元素都被转换为字符串
+            data_str = ','.join(map(str, data_list))
+            
+            # 将字符串编码为字节串
+            data_bytes = (command + data_str + '\r\n').encode('utf-8')
+            
+            # 发送数据
+            ser.write(data_bytes)
+            
+            print("数据发送成功")
+    
+    except Exception as e:
+        print(f"发生错误: {e}")
+
+
 # 主函数，负责游戏的运行流程控制
 def run():
     # 初始化棋盘状态，直到检测到棋盘的WH尺寸，进入正式的游戏循环
@@ -90,8 +109,8 @@ def run():
     cv2.waitKey(10)
     original_centers = vs.find_rectangle_centers(warped)
     print(f"original_centers: {original_centers}")
-    trans_centers = vs.compute_axis(original_centers)
-    print(f"trans_centers: {trans_centers}")
+    vs.trans_centers = vs.compute_axis(original_centers)
+    print(f"trans_centers: {vs.trans_centers}")
     gray_mean = vs.get_color(image, original_centers)
     vs.gray_mean = gray_mean
     # print(f"gray_mean:{gray_mean}")
@@ -120,6 +139,7 @@ def run():
     board_pre = create_doard()
     board = create_doard()
     while True:
+        
         for i in range(10):
             image1 = capture_image()
         # 检查捕捉到的图像是否有效，无效则退出程序

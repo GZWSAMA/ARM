@@ -115,7 +115,7 @@ def computer_move(board):
     return best_move
 
 def start_game(ch_flag):
-    if ch_flag == 1 or ch_flag == -2:
+    if ch_flag != 0:
         Piece.X = 2
         Piece.O = 1
 
