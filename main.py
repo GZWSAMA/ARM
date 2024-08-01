@@ -100,6 +100,7 @@ def send_list_over_serial(command, data_list):
         print(f"发生错误: {e}")
 
 def strategy_computer():
+    print(f"board_pre: {vs.board_pre}")
     board = create_doard()
     for i in range(10):
         image1 = capture_image()
@@ -112,6 +113,7 @@ def strategy_computer():
     for i in range(len(color_codes)):
         board[i // 3][i % 3] = color_codes[i]
     
+    print(f"board: {board}")
     #对比board_pre和board
     if compare_board(vs.board_pre, board) is not None:
         start, end = compare_board(vs.board_pre, board)
@@ -187,7 +189,9 @@ def run():
                 print(f"trans_centers: {vs.trans_centers}")
                 gray_mean = vs.get_color(image, vs.original_centers)
                 vs.gray_mean = gray_mean
+                print(f"gray_mean: {gray_mean}")
                 centers2sent = [vs.trans_centers[i][j] for i in (0,2,6,8) for j in (0,1)]
+                vs.board_pre = create_doard()
                 send_list_over_serial(command, centers2sent)
             elif command == "S":
                 if vs.ch_flag == 1:
