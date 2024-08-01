@@ -169,8 +169,10 @@ def run():
             
             # 根据命令调用相应的函数
             if command == "C":
+                vs.WH = None
                 while vs.WH is None:
-                    image = capture_image()
+                    for i in range(5):
+                        image = capture_image()
                     cv2.imshow("image", image)
                     cv2.waitKey(10)
                     vs.compute_M(image)
