@@ -147,12 +147,16 @@ def run():
         vs.compute_M(image)
         print("WH is None")
 
-    warped = vs.warp_image(image)
-    cv2.imshow("warped", warped)
-    cv2.waitKey(10)
-    vs.original_centers = vs.find_rectangle_centers(warped)
-    print(f"original_centers: {vs.original_centers}")
-    vs.trans_centers = vs.compute_axis(vs.original_centers)
+    len_flag = 0
+    while len_flag != 9:
+        for i in range(10):
+            image = capture_image()
+        warped = vs.warp_image(image)
+        cv2.imshow("warped", warped)
+        cv2.waitKey(10)
+        vs.original_centers = vs.find_rectangle_centers(warped)
+        print(f"original_centers: {vs.original_centers}")
+        len_flag = len(vs.original_centers)
     print(f"trans_centers: {vs.trans_centers}")
     gray_mean = vs.get_color(image, vs.original_centers)
     vs.gray_mean = gray_mean
@@ -180,11 +184,16 @@ def run():
                     vs.compute_M(image)
                     print("WH is None")
 
-                warped = vs.warp_image(image)
-                cv2.imshow("warped", warped)
-                cv2.waitKey(10)
-                vs.original_centers = vs.find_rectangle_centers(warped)
-                print(f"original_centers: {vs.original_centers}")
+                len_flag = 0
+                while len_flag != 9:
+                    for i in range(10):
+                        image = capture_image()
+                    warped = vs.warp_image(image)
+                    cv2.imshow("warped", warped)
+                    cv2.waitKey(10)
+                    vs.original_centers = vs.find_rectangle_centers(warped)
+                    print(f"original_centers: {vs.original_centers}")
+                    len_flag = len(vs.original_centers)
                 vs.trans_centers = vs.compute_axis(vs.original_centers)
                 print(f"trans_centers: {vs.trans_centers}")
                 gray_mean = vs.get_color(image, vs.original_centers)
