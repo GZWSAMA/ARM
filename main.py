@@ -158,7 +158,6 @@ def run():
     vs.board_pre = create_doard()
     
     while True:
-        centers2sent = [vs.trans_centers[i][j] for i in (0,2,6,8) for j in (0,1)]
         if ser.in_waiting > 0:
             # 读取一行数据
             line = ser.readline().decode('utf-8').strip()
@@ -170,6 +169,23 @@ def run():
             
             # 根据命令调用相应的函数
             if command == "C":
+                while vs.WH is None:
+                    image = capture_image()
+                    cv2.imshow("image", image)
+                    cv2.waitKey(10)
+                    vs.compute_M(image)
+                    print("WH is None")
+
+                warped = vs.warp_image(image)
+                cv2.imshow("warped", warped)
+                cv2.waitKey(10)
+                vs.original_centers = vs.find_rectangle_centers(warped)
+                print(f"original_centers: {vs.original_centers}")
+                vs.trans_centers = vs.compute_axis(vs.original_centers)
+                print(f"trans_centers: {vs.trans_centers}")
+                gray_mean = vs.get_color(image, vs.original_centers)
+                vs.gray_mean = gray_mean
+                centers2sent = [vs.trans_centers[i][j] for i in (0,2,6,8) for j in (0,1)]
                 send_list_over_serial(command, centers2sent)
             elif command == "S":
                 if vs.ch_flag == 1:
