@@ -202,6 +202,7 @@ def run():
                 print(f"gray_mean: {gray_mean}")
                 centers2sent = [vs.trans_centers[i][j] for i in (0,2,6,8) for j in (0,1)]
                 vs.board_pre = create_doard()
+                vs.ch_flag = 1
                 send_list_over_serial(command, centers2sent)
             elif command == "S":
                 if vs.ch_flag == 1:
