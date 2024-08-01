@@ -120,6 +120,8 @@ def start_game(ch_flag):
         Piece.O = 1
         print("computer first;player: O,computer: X")
     else:
+        Piece.X = 1
+        Piece.O = 2
         print("player first;computer: O,player: X")
 
 
