@@ -157,6 +157,7 @@ def run():
         vs.original_centers = vs.find_rectangle_centers(warped)
         print(f"original_centers: {vs.original_centers}")
         len_flag = len(vs.original_centers)
+    vs.trans_centers = vs.compute_axis(vs.original_centers)
     print(f"trans_centers: {vs.trans_centers}")
     gray_mean = vs.get_color(image, vs.original_centers)
     vs.gray_mean = gray_mean
