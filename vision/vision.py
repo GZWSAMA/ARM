@@ -288,7 +288,7 @@ class Vision:
 
     def compute_axis(self, centers):
         box = np.array([
-            [98, 231], [244, 230], [98, 382], [249, 379]
+            [98, 151], [247, 150], [99, 300], [247, 298]
         ], dtype="float32")
         # 重新计算目标点
         dst_pts = np.array([
