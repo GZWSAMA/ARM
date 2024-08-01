@@ -13,6 +13,7 @@ class Vision:
         self.trans_centers = []
         self.original_centers = []
         self.ch_flag = 1
+        self.center2set = []
         self.WH = None
         self.M = None
     
@@ -288,7 +289,7 @@ class Vision:
 
     def compute_axis(self, centers):
         box = np.array([
-            [82, 150], [231, 143], [89, 300], [237, 293]
+            [self.center2set[0], self.center2set[1]], [self.center2set[2], self.center2set[3]], [self.center2set[4], self.center2set[5]], [self.center2set[6], self.center2set[7]]
         ], dtype="float32")
         # 重新计算目标点
         dst_pts = np.array([

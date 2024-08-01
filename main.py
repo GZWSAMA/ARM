@@ -45,7 +45,7 @@ def capture_image():
     height, width, _ = frame.shape
     
     # 计算裁剪的起始和结束位置
-    left = int(width * 0.25)
+    left = int(width * 0.2)
     right = int(width * 0.8)
     top = 0
     bottom = height
@@ -163,6 +163,7 @@ def run():
         vs.original_centers = vs.find_rectangle_centers(warped)
         print(f"original_centers: {vs.original_centers}")
         len_flag = len(vs.original_centers)
+    vs.center2set = [vs.original_centers[i][j] for i in (0,2,6,8) for j in (0,1)]
     vs.trans_centers = vs.compute_axis(vs.original_centers)
     print(f"trans_centers: {vs.trans_centers}")
     gray_mean = vs.get_color(image, vs.original_centers)
@@ -239,6 +240,19 @@ def run():
                 elif send_flag == Strategy_compute.Move:
                     send_list_over_serial(command, ['T', data1, data2])
                     print(f"serial sent: {command}, T, {data1}, {data2}")
+            elif command == "G":
+                board = create_doard()
+                for i in range(10):
+                    image1 = capture_image()
+                # 检查捕捉到的图像是否有效，无效则退出程序
+                if image1 is None or image1.size == 0:
+                    print("Image1 is empty!")
+                    exit()
+                color_codes = vs.get_determine_color(image1, vs.original_centers)
+                # 更新棋盘状态
+                for i in range(len(color_codes)):
+                    board[i // 3][i % 3] = color_codes[i]
+                vs.board_pre = board
             else:
                 print(f"Invalid command: {command}")
 
