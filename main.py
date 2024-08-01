@@ -112,7 +112,13 @@ def strategy_computer():
     # 更新棋盘状态
     for i in range(len(color_codes)):
         board[i // 3][i % 3] = color_codes[i]
-    
+    for i,center in enumerate(vs.original_centers):
+        x, y = center
+        cv2.circle(image1, (int(x), int(y)), 5, (255, 0, 0), -1)
+        cv2.putText(image1, str(i+1), (int(x)+10, int(y)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
+        cv2.putText(image1, str(color_codes[i]), (int(x)-10, int(y)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 1)
+    cv2.imshow("image with label", image1)
+    cv2.waitKey(10)
     print(f"board: {board}")
     #对比board_pre和board
     if compare_board(vs.board_pre, board) is not None:

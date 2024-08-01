@@ -161,8 +161,6 @@ class Vision:
     def find_rectangle_centers(self, image):
         # 读取图像
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        cv2.imshow("gray in rec", gray)
-        cv2.waitKey(10)
 
         # 应用高斯模糊
         gauss = cv2.GaussianBlur(gray, (3, 3), 0)
