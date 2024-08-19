@@ -79,7 +79,7 @@ def compare_board(board_pre, board):
 def run():
     # 初始化棋盘状态，直到检测到棋盘的WH尺寸，进入正式的游戏循环
     while vs.WH is None:
-        image = capture_image()
+        image = cv2.imread("./datas/test.png")
         cv2.imshow("image", image)
         cv2.waitKey(10)
         vs.compute_M(image)
@@ -108,7 +108,7 @@ def run():
     flag = int(input("输入1表示已完成本次下棋: "))
     ch_flag = 1
     for i in range(10):
-        image = capture_image()
+        image = cv2.imread("./datas/test.test.png")
     color_codes = vs.get_determine_color(image, original_centers)
 
     # 检查是否有棋子被下，如果没有则认为本次操作没有改变棋盘状态
@@ -122,7 +122,8 @@ def run():
     while True:
         
         for i in range(10):
-            image1 = capture_image()
+            # image1 = capture_image()
+            image1 = cv2.imread("./datas/test.test.png")
         # 检查捕捉到的图像是否有效，无效则退出程序
         if image1 is None or image1.size == 0:
             print("Image1 is empty!")
@@ -134,7 +135,7 @@ def run():
             cv2.putText(image1, str(color_codes[i]), (original_center[0] - 10, original_center[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
             cv2.putText(image1, str(i), (original_center[0], original_center[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
         cv2.imshow("image_put", image1)
-        cv2.waitKey(10)
+        cv2.waitKey(0)
         # 更新棋盘状态
         for i in range(len(color_codes)):
             board[i // 3][i % 3] = color_codes[i]
